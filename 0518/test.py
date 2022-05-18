@@ -49,6 +49,7 @@ def solution(word, pages):
                 base_score += 1
                 print("word  : ", b[:len(b)])
 
+
         # base score, link num, matching score        
         try:
             info[url][0] += base_score
