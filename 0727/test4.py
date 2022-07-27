@@ -9,8 +9,11 @@ def ok(board1, board2):
 def solution(beginning, target):
     answer = 0
 
+    for i in range(len(beginning)):
+        for j in range(len(beginning)):
+            
 
-    
+
     return answer
 
 
