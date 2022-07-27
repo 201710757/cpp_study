@@ -1,4 +1,5 @@
 # 보조 : stack
+
 from collections import deque
 
 
@@ -12,11 +13,13 @@ def solution(order):
     box = 1
     while True:
         # print("Order : ", order[idx])
-        
+        if (len(sub)>0 and sub[-1] > order[idx]) or idx >= len(order):
+            break
         if len(sub) > 0 and sub[-1] == order[idx]:
             sub.pop()
             answer += 1
             idx += 1
+            box -= 1
         elif box == order[idx]:
             answer += 1
             idx += 1
@@ -26,12 +29,8 @@ def solution(order):
         if box > len(order):
             box = len(order)
             
-        # if idx >= len(order): #and len(sub) == 0:
-        #     break
-        # if idx < len(order) and len(sub)>0 and sub[-1] > order[idx]:
-        #     break
-        if len(sub)>0 and sub[-1] > order[idx] or idx >= len(order):
-            break
+        
+
     return answer
 
 order = [5,4,3,2,1]
