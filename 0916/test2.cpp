@@ -34,7 +34,7 @@ int main(void)
     int o=f1(N);
     f2(N);
 
-    cout<<c1<<' '<<c2<<endl;
+    cout<<c1<<' '<<c2+1<<endl;
     
     return 0;
 }
