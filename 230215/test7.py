@@ -6,78 +6,177 @@ import itertools
 
 # board = [list(map(int, sys.stdin.readline().split())) for _ in range(4)]
 
-N = int(input())
-number = list(map(int, sys.stdin.readline().split()))
-calc = list(map(int, sys.stdin.readline().split()))
 
-calc_info = [0 for _ in range(11)]
+board = [list(map(int, sys.stdin.readline().split())) for _ in range(9)]
+pos = []
+N = 0
 
-# print(N)
-# print(number)
-# print(calc)
+# def check_square(x, y):
+#     check = [0 for _ in range(10)]
 
-global _max
-global _min
-_max = -987654321
-_min = 987654321
+#     for i in range(int(x/3)*3, int(x/3)*3 + 3):
+#         for j in range(int(y/3)*3, int(y/3)*3 + 3):
+            
+#             check[board[i][j]] += 1
+
+#     for c in check:
+#         if c >1 or c == 0:
+#             return False
+
+#     return True
+def check_square(x, y, num):
+    check = []
+
+    for i in range(int(x/3)*3, int(x/3)*3 + 3):
+        for j in range(int(y/3)*3, int(y/3)*3 + 3):
+            check.append(board[i][j])
+            # check[i*3 + j] += 1
+
+    if num in check:
+        return False
+
+    return True
+
+# def check_horizontal(x, y):
+#     check = [0 for _ in range(10)]
+
+#     for i in range(9):
+#         check[board[x][i]] += 1
+
+#     for c in check:
+#         if c >1 or c == 0:
+#             return False
+
+#     return True
+
+def check_horizontal(x, y, num):
+    check = []
+
+    for i in range(9):
+        check.append(board[x][i])
+
+    if num in check:
+        return False
+
+    return True
+
+# def check_vertical(x, y):
+#     check = [0 for _ in range(10)]
+
+#     for i in range(9):
+#         check[board[i][y]] += 1
+
+#     for c in check:
+#         if c >1 or c == 0:
+#             return False
+
+#     return True
+def check_vertical(x, y, num):
+    check = []
+
+    for i in range(9):
+        check.append(board[i][y])
+
+    if num in check:
+        return False
+
+    return True
+
+def checking(x, y, num):
+    # print(check_square(x, y, num) , check_horizontal(x, y, num) , check_vertical(x, y, num))
+    return check_square(x, y, num) and check_horizontal(x, y, num) and check_vertical(x, y, num)
+
+'''
+# def check_square():
+#     for base_x in [0, 3, 6]:
+#         for base_y in [0, 3, 6]:
+#             check = [0 for _ in range(10)]
+
+#             for i in range(3):
+#                 for j in range(3): 
+#                     check[board[base_x + i][base_y + j]] += 1
+
+#             for c in check:
+#                 if c >1 or c == 0:
+#                     return False
+#     return True
+
+# def check_horizontal():
+#     for x in range(9):
+#         check = [0 for _ in range(10)]
+
+#         for i in range(9):
+#             check[board[x][i]] += 1
+
+#         for c in check:
+#             if c >1 or c == 0:
+#                 return False
+
+#     return True
+
+# def check_vertical():
+#     for y in range(9):
+#         check = [0 for _ in range(10)]
+
+#         for i in range(9):
+#             check[board[i][y]] += 1
+
+#         for c in check:
+#             if c >1 or c == 0:
+#                 return False
+
+#     return True
+
+# def checking():
+#     # print(check_square(x, y) , check_horizontal(x, y) , check_vertical(x, y))
+#     return check_square() and check_horizontal() and check_vertical()
+'''
+
 
 def dfs(n):
-    global _max
-    global _min
-    if n == N:
-        res = number[0]
+    # for i in range(9):
+    #     for j in range(9):
+    #         print(board[i][j], end = ' ')
+    #     print()
+    x, y = pos[n]
+    # print(n, N)
+    if n == N-1:
+        print()
+        for i in range(9):
+            for j in range(9):
+                print(board[i][j], end = ' ')
+            print()
 
-        for i in range(1, N):
-            if calc_info[i] == 0:
-                res += number[i]
-            elif calc_info[i] == 1:
-                res -= number[i]
-            elif calc_info[i] == 2:
-                res *= number[i]
-            elif calc_info[i] == 3:
-                if res < 0:
-                    res = -res // number[i]
-                    res = -res
-                else:
-                    res = res // number[i]
+        # print("res")
+        # for x,y in pos:
+        #     print(x, y, board[x][y])
 
-        if res > _max: _max = res
-        if res < _min: _min = res
-
+        import sys
+        sys.exit(0)
         return
 
     else:
-        for i in range(4):
-            if calc[i] == 0:
-                continue
-            calc[i] -= 1
-            calc_info[n] = i
+        # if board[x][y] == 0:
+        for i in range(9):
+            
+            if checking(x, y, i+1):
+                board[x][y] = i+1
 
-            dfs(n+1)
+                dfs(n+1)
 
-            calc_info[n] = 0
-            calc[i] += 1
-
-
-
-dfs(1)
-print(int(_max))
-print(int(_min))
+                board[x][y] = 0
+            # pos.append([x,y])
+            
+        
+        # dfs(x, y)
 
 
+for i in range(9):
+    for j in range(9):
+        if board[i][j] == 0:
+            pos.append([i, j])
 
+N = len(pos)
 
+dfs(0)
 
-'''
-ans = itertools.combinations([(i+1) for i in range(n)], r)
-
-for a in ans:
-    if len(a) <= 1:
-        print(a[0])
-    else:
-        for _a in a:
-            print(_a, end=' ')
-        print()
-'''
-
-########
