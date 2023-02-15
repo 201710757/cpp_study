@@ -8,22 +8,46 @@ import itertools
 
 N = int(input())
 
-res = []
-def dfs(_n):
-    if len(res) == r:
-        for _r in res:
-            print(_r, end=' ')
-        print()
+res = [0 for _ in range(N)]
+
+global cnt
+cnt = 0
+
+def dfs(pos):
+    global cnt
+    if pos == N:
+        cnt += 1
         return
+        
+    for i in range(N):
+        res[pos] = i
+
+        _flag = True
+        for j in range(pos):
+            if res[pos] == res[j] or pos-j == abs(res[pos] - res[j]):
+                _flag = False
+        if _flag:
+            dfs(pos+1)
+
+
+# def dfs(_n):
+#     if len(res) == r:
+#         for _r in res:
+#             print(_r, end=' ')
+#         print()
+#         return
     
-    for i in range(_n, n+1):
-        # if i not in res:
-        res.append(i)
-        dfs(i)
-        res.pop()
+#     for i in range(_n, n+1):
+#         # if i not in res:
+#         res.append(i)
+#         dfs(i)
+#         res.pop()
 
 
-dfs(1)
+dfs(0)
+print(cnt)
+
+
 
 
 
