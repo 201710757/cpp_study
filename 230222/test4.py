@@ -10,17 +10,33 @@ import sys
 N = int(input())
 board = list(map(int, sys.stdin.readline().split()))
 
-print(board)
+# print(board)
 
-max_len = -987654321
-arr = []
-h = 0
-t = N-1
 
-arr.append(board[h])
-arr.append(board[t])
-while True:
-    pass
+normal = [b for b in board]
+reverse = [board[len(board)-idx-1] for idx in range(len(board))]
+
+
+cache_norm = [1 for _ in range(len(board))]
+cache_reverse = [1 for _ in range(len(board))]
+
+for i in range(len(board)):
+    for j in range(i):
+        if normal[i] > normal[j]:
+            cache_norm[i] = max(cache_norm[i], cache_norm[j]+1)
+        if reverse[i] > reverse[j]:
+            cache_reverse[i] = max(cache_reverse[i], cache_reverse[j]+1)
+res = [cache_norm[i] + cache_reverse[len(cache_norm)-1-i] - 1 for i in range(len(cache_norm))]
+
+# print(res)
+print(max(res))
+# print(normal, reverse)
+
+
+
+
+
+# print(normal, reverse)
     
 
 
